@@ -1,5 +1,10 @@
 # qh3_mutual_tls_patch
 
+[![PyPI version](https://img.shields.io/pypi/v/qh3_mutual_tls_patch)](https://pypi.org/project/qh3_mutual_tls_patch/)
+[![Downloads](https://img.shields.io/pypi/dm/qh3_mutual_tls_patch)](https://pypi.org/project/qh3_mutual_tls_patch/)
+[![License](https://img.shields.io/pypi/l/qh3_mutual_tls_patch)](https://pypi.org/project/qh3_mutual_tls_patch/)
+[![Python](https://img.shields.io/pypi/pyversions/qh3_mutual_tls_patch)](https://pypi.org/project/qh3_mutual_tls_patch/)
+
 Runtime monkey-patch that adds **mutual TLS** (client certificate authentication) support to [qh3](https://github.com/jawah/qh3)'s server-side TLS 1.3 implementation.
 
 ## Problem
