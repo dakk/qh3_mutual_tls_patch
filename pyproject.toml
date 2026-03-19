@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qh3_mutual_tls_patch"
+version = "0.1.0"
+description = "Monkey-patch for qh3 to support mutual TLS (client certificate authentication)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Davide Gessa" },
+]
+keywords = ["quic", "tls", "mutual-tls", "mtls", "qh3", "client-certificate"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Security",
+]
+dependencies = [
+    "qh3>=1.2.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/dakk/qh3_mutual_tls_patch"
+
+[tool.setuptools.packages.find]
+include = ["qh3_mutual_tls_patch*"]
