@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qh3_mutual_tls_patch"
-version = "0.1.0"
+version = "0.2"
 description = "Monkey-patch for qh3 to support mutual TLS (client certificate authentication)"
 readme = "README.md"
 license = "MIT"
@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Security",
 ]
