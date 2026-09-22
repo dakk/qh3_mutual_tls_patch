@@ -16,6 +16,7 @@ Strategy
    back to qh3's original ``handle_message`` for the Finished verification.
 """
 
+import inspect
 import ssl
 import threading
 from contextlib import contextmanager
@@ -59,6 +60,17 @@ _original_handle_message = Context.handle_message
 _original_push_message = None
 _original_push_encrypted_extensions = None
 _applied = False
+
+# qh3 >= 2.0 added an ``epoch`` keyword argument to ``Context.handle_message``
+_HANDLE_MESSAGE_HAS_EPOCH = "epoch" in inspect.signature(
+    Context.handle_message
+).parameters
+
+
+def _call_original_handle_message(self, input_data, output_buf, epoch):
+    if _HANDLE_MESSAGE_HAS_EPOCH:
+        return _original_handle_message(self, input_data, output_buf, epoch=epoch)
+    return _original_handle_message(self, input_data, output_buf)
 
 
 # ---------------------------------------------------------------------------
@@ -146,12 +158,12 @@ def _patched_server_handle_hello(self, input_buf, initial_buf, handshake_buf, on
     self._set_state(SERVER_EXPECT_CLIENT_CERT)
 
 
-def _patched_handle_message(self, input_data, output_buf):
+def _patched_handle_message(self, input_data, output_buf, epoch=-1):
     if self.state not in (SERVER_EXPECT_CLIENT_CERT, SERVER_EXPECT_CLIENT_CERT_VERIFY):
         if self.state == State.SERVER_EXPECT_FINISHED and getattr(self, "_requested_client_cert", False):
             self._expected_verify_data = self.key_schedule.finished_verify_data(self._dec_key)
             self._requested_client_cert = False
-        return _original_handle_message(self, input_data, output_buf)
+        return _call_original_handle_message(self, input_data, output_buf, epoch)
 
     self._receive_buffer += input_data
     while len(self._receive_buffer) >= 4:
@@ -206,7 +218,7 @@ def _patched_handle_message(self, input_data, output_buf):
         if getattr(self, "_requested_client_cert", False):
             self._expected_verify_data = self.key_schedule.finished_verify_data(self._dec_key)
             self._requested_client_cert = False
-        return _original_handle_message(self, b"", output_buf)
+        return _call_original_handle_message(self, b"", output_buf, epoch)
 
 
 def _patched_set_state(self, state):
